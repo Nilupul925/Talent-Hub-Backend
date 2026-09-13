@@ -10,6 +10,7 @@ public class ServiceRegistryApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ServiceRegistryApplication.class, args);
+		System.out.println("\n__ Eureka-Service-Regisrty-Online __");
 	}
 
 }
