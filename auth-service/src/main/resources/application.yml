@@ -1,0 +1,26 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: AUTH-SERVICE
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/talenthub_auth_db?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        '[format_sql]': true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${EUREKA_HOST:localhost}:${EUREKA_PORT:8761}/eureka/
+    registry-fetch-interval-seconds: 30   
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 60 
