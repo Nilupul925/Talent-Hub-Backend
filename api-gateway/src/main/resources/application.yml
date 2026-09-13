@@ -4,7 +4,25 @@ server:
 spring:
   application:
     name: API-GATEWAY
+  cloud:
+    gateway:
+      server:
+        webmvc:
+          routes:
+            - id: AUTH-SERVICE
+              uri: lb://AUTH-SERVICE
+              predicates:
+                - Path=/api/auth/**
 
+            - id: RESUME-SERVICE
+              uri: lb://RESUME-SERVICE
+              predicates:
+                - Path=/api/resume/**
+
+            - id: PORTFOLIO-SERVICE
+              uri: lb://PORTFOLIO-SERVICE
+              predicates:
+                - Path=/api/portfolio/**
 eureka:
   client:
     service-url:
