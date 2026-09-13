@@ -12,6 +12,7 @@ import com.talenthub.auth_service.entity.User;
 import com.talenthub.auth_service.exception.InvalidCredentialsException;
 import com.talenthub.auth_service.exception.UserAlreadyExistsException;
 import com.talenthub.auth_service.exception.UserNotFoundException;
+import com.talenthub.auth_service.feign.PortfolioInterface;
 import com.talenthub.auth_service.feign.ResumeInterface;
 import com.talenthub.auth_service.repository.UserRepository;
 import com.talenthub.auth_service.security.JwtUtil;
@@ -25,12 +26,14 @@ public class AuthService {
 
     private final UserRepository userRepository;
     private final ResumeInterface resumeInterface;
+    private final PortfolioInterface portfolioInterface;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
-    public AuthService(UserRepository userRepository, ResumeInterface resumeInterface, PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
+    public AuthService(UserRepository userRepository, ResumeInterface resumeInterface, PortfolioInterface portfolioInterface, PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
         this.resumeInterface = resumeInterface;
+        this.portfolioInterface = portfolioInterface;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
     }
@@ -88,6 +91,15 @@ public class AuthService {
             resumeResult = "Warning: Resume deletion failed (" + ex.status() + "): " + ex.getMessage();
         }
 
-        return "User delete successful" + resumeResult;
+        String portfolioResult;
+        try {
+            portfolioResult = portfolioInterface.deletePortfolio(existUser.getEmail());
+        } catch (FeignException.NotFound ex) {
+            portfolioResult = "No portfolio existed for this user";
+        } catch (FeignException ex) {
+            portfolioResult = "Warning: Portfolio deletion failed (" + ex.status() + "): " + ex.getMessage();
+        }
+
+        return "User delete successful" + resumeResult + "\n" +portfolioResult;
     }
 }
