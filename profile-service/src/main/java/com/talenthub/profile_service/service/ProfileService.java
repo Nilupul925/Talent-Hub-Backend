@@ -36,5 +36,9 @@ public class ProfileService {
         return profileRepository.save(newProfile);
         
     }
+    public Profile get(String email){
+           return profileRepository.findByEmail(email)
+           .orElseThrow(() -> new EmailNotFoundException("This Profile is not exist"));
+    }
 
 }
