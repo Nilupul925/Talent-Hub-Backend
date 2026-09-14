@@ -39,5 +39,9 @@ public class ProfileController {
     public ResponseEntity<Profile> updateProfile(@Valid @RequestHeader("X-User") String email, @RequestBody Profile request) {
         return ResponseEntity.status(HttpStatus.OK).body(profileService.update(email, request));
     }
+    @DeleteMapping("/delete")
+    public String deleteProfile(@RequestParam("email") String email){
+        return profileService.delete(email);
+    }
 
 }
