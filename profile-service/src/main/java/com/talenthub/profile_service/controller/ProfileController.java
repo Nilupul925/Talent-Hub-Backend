@@ -35,5 +35,9 @@ public class ProfileController {
     public ResponseEntity<Profile> createProfile(@Valid @RequestHeader("X-User") String email, @RequestBody Profile request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(profileService.create(email, request));
     }
+    @PutMapping()
+    public ResponseEntity<Profile> updateProfile(@Valid @RequestHeader("X-User") String email, @RequestBody Profile request) {
+        return ResponseEntity.status(HttpStatus.OK).body(profileService.update(email, request));
+    }
 
 }
