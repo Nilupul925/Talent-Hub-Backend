@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.talenthub.profile_service.entity.Profile;
 import com.talenthub.profile_service.repository.ProfileRepository;
+import com.talenthub.profile_service.exception.EmailAlreadyExistsException;
 
 import jakarta.transaction.Transactional;
 
