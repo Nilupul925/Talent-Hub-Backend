@@ -41,5 +41,14 @@ public class ProfileService {
            return profileRepository.findByEmail(email)
            .orElseThrow(() -> new EmailNotFoundException("This Profile is not exist"));
     }
+    @Transactional 
+    public String delete(String email) {
+        Profile existProfile = profileRepository.findByEmail(email)
+           .orElseThrow(() -> new EmailNotFoundException("User Profile is not exist"));
+        
+        profileRepository.delete(existProfile);
+
+        return email + ": Profile deleted successful";
+    }
 
 }
